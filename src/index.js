@@ -39,34 +39,61 @@ const MORSE_TABLE = {
 
 function decode(expr) {
     
-    let strMorze = '';
-    const morseValue = Object.values(MORSE_TABLE);
-    for (const char of expr) {
-        if(char === ' '){
-            strMorze += '**********';
-        } else {
-            let charMorze = Object.keys(MORSE_TABLE)[morseValue.indexOf(char)];
-            let numStr = '';
-            for (const a of charMorze) {
-                if(a === '.'){
-                    numStr += '10';
-                }else if(a === '-'){
-                    numStr += '11';
+    let result = '';
+    let a = 0;
+    for (let index = 10; index <= expr.length; index+=10) {
+        let str = expr.slice(a, index);
+        // console.log(str);
+        if(str === '**********'){
+            result += ' '
+            a += 10;
+        }else{
+            str = Number(str);
+            str = str.toString();
+            // console.log(str);
+            let char = '';
+            for (let index = 0; index < str.length; index += 2) {
+                let charNum = str.substr(index, 2);
+                if(charNum === '10'){
+                    char += '.';
+                }else{
+                    char += '-';
                 }
             }
-            while (numStr.length < 10) {
-                numStr = '0' + numStr;
-            }
-            strMorze += numStr;
+            // console.log(char);
+            result += MORSE_TABLE[char];
+            // arrChar.push(MORSE_TABLE[char]);
+            a += 10;
         }
     }
+    console.log(result);
+    // for (const char of expr) {
+        
+        //     if(char === ' '){
+    //         strMorze += '**********';
+    //     } else {
+    //         let charMorze = Object.keys(MORSE_TABLE)[morseValue.indexOf(char)];
+    //         let numStr = '';
+    //         for (const a of charMorze) {
+    //             if(a === '.'){
+    //                 numStr += '10';
+    //             }else if(a === '-'){
+    //                 numStr += '11';
+    //             }
+    //         }
+    //         while (numStr.length < 10) {
+    //             numStr = '0' + numStr;
+    //         }
+    //         strMorze += numStr;
+    //     }
+    // }
     // console.log(strMorze);
-    // console.log(strMorze === "00000000100000111010101010111100111011100000001011111110101011111010101010101010111111101010101111111111111110001110101010101010110011101010111111101000111011101111111111000000001010101010101111111110111010101010101111111111111111111111111110111111111111101010001110101000101011101010111111101010101011111111101110101010001110101010101111111111101010000011101011111111110011101110101010101000111011100000111010101010111100001110100000000010111111101000000000100000001011001110111011111111110000001011101111111110101010111010101010001110111010101010110010101110101011111110101010100011101010101010111110111111110000001011111010101010101011110000000010101011111100000000100011101010001010111010101011111010101011111111111100111011101010101011101010111110101011111010101010000000101111111110101010111111111010101000111011101010101011101010101110101011110000000010001110111000000000100000001011111010101011111111111110101010111111111000101011101010101010111111111100000010111111111010101010111111101010100010101110000011101000111011101010101111101010101000111011100011101110111010101000111011101010111111000000101111111111101010101011001110111000001110100010101110101010101000001110100000001011111111111100101011100011101010101010111100111010101110101010000000101100111011100011101010");
-    return strMorze;
+    // console.log(strMorze === "hello world");
+    return result;
 }
 
 module.exports = {
     decode
 }
 
-// decode('ed3ca775829b4b8c0e59620017bf2596b27d0c5cd3de8eac0a145c4f25b31a63e2ebf340c4335a826c443ecea6069f50a836fdc35cc6c2a94cdf5da0fb3b6acb');
+decode('00101010100000000010001011101000101110100000111111**********00001011110000111111000010111000101110100000111010');
